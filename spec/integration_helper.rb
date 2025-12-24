@@ -39,7 +39,7 @@ ClickHouse::Client.configure do |client_config|
     database: 'rspec_clickhouse_test',
     url: ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123'),
     username: ENV.fetch('CLICKHOUSE_USERNAME', 'default'),
-    password: ENV.fetch('CLICKHOUSE_PASSWORD', ''),
+    password: ENV.fetch('CLICKHOUSE_PASSWORD', 'password'),
     variables: { mutations_sync: 1 }
   )
 end
@@ -48,7 +48,7 @@ end
 RSpec::Clickhouse.configure do |config|
   config.clickhouse_url = ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123')
   config.clickhouse_username = ENV.fetch('CLICKHOUSE_USERNAME', 'default')
-  config.clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', '')
+  config.clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', 'password')
   config.database_name = 'rspec_clickhouse_test'
   config.test_database_prefix = 'rspec_clickhouse_test'
   config.schema_root = File.expand_path('fixtures/clickhouse', __dir__)
