@@ -33,7 +33,7 @@ module RSpec
         # Connection defaults
         @clickhouse_url = ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123')
         @clickhouse_username = ENV.fetch('CLICKHOUSE_USERNAME', 'default')
-        @clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', 'password')
+        @clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', '')
         @database_name = nil # Must be set by app
         @test_database_prefix = nil
         @http_post_proc = nil

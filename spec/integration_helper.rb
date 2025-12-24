@@ -39,7 +39,7 @@ ClickHouse::Client.configure do |client_config|
     database: 'rspec_clickhouse_test',
     url: ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123'),
     username: ENV.fetch('CLICKHOUSE_USERNAME', 'default'),
-    password: ENV.fetch('CLICKHOUSE_PASSWORD', 'password'),
+    password: ENV.fetch('CLICKHOUSE_PASSWORD', ''),
     variables: { mutations_sync: 1 }
   )
 end
@@ -48,7 +48,7 @@ end
 RSpec::Clickhouse.configure do |config|
   config.clickhouse_url = ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123')
   config.clickhouse_username = ENV.fetch('CLICKHOUSE_USERNAME', 'default')
-  config.clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', 'password')
+  config.clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', '')
   config.database_name = 'rspec_clickhouse_test'
   config.test_database_prefix = 'rspec_clickhouse_test'
   config.schema_root = File.expand_path('fixtures/clickhouse', __dir__)
@@ -71,12 +71,13 @@ RSpec.configure do |config|
     # Drop and recreate test database
     admin_config = ClickHouse::Client::Configuration.new
     admin_config.http_post_proc = ClickHouse::Client.configuration.http_post_proc
+    password = RSpec::Clickhouse.configuration.clickhouse_password
     admin_config.register_database(
       :main,
       database: 'default',
       url: RSpec::Clickhouse.configuration.clickhouse_url,
       username: RSpec::Clickhouse.configuration.clickhouse_username,
-      password: RSpec::Clickhouse.configuration.clickhouse_password
+      password: password.to_s.empty? ? '' : password
     )
     admin_conn = RSpec::Clickhouse::Connection.new(:main, admin_config)
 
@@ -94,12 +95,13 @@ RSpec.configure do |config|
   config.after(:suite) do
     admin_config = ClickHouse::Client::Configuration.new
     admin_config.http_post_proc = ClickHouse::Client.configuration.http_post_proc
+    password = RSpec::Clickhouse.configuration.clickhouse_password
     admin_config.register_database(
       :main,
       database: 'default',
       url: RSpec::Clickhouse.configuration.clickhouse_url,
       username: RSpec::Clickhouse.configuration.clickhouse_username,
-      password: RSpec::Clickhouse.configuration.clickhouse_password
+      password: password.to_s.empty? ? '' : password
     )
     admin_conn = RSpec::Clickhouse::Connection.new(:main, admin_config)
     admin_conn.execute('DROP DATABASE IF EXISTS rspec_clickhouse_test')
