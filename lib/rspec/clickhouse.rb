@@ -16,6 +16,10 @@ require_relative 'clickhouse/model_mapper'
 require_relative 'clickhouse/schema_manager'
 require_relative 'clickhouse/test_database_manager'
 require_relative 'clickhouse/test_helper'
+require_relative 'clickhouse/rspec_integration'
+
+# Load Railtie for automatic Rails integration
+require_relative 'clickhouse/railtie' if defined?(Rails)
 
 module RSpec
   module Clickhouse
