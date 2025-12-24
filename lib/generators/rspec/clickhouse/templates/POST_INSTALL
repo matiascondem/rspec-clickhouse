@@ -1,0 +1,27 @@
+===============================================================================
+
+  rspec-clickhouse has been installed!
+
+  Next steps:
+
+  1. Review and customize:
+     - config/initializers/clickhouse.rb
+     - spec/support/helpers/clickhouse_helper.rb
+     - spec/support/clickhouse_factories.rb
+
+  2. Create your ClickHouse schema directory:
+     mkdir -p clickhouse/functions clickhouse/tables clickhouse/views
+
+  3. Prepare test databases:
+     bundle exec rake clickhouse:test:prepare
+
+  4. Use in specs:
+     RSpec.describe MyService, clickhouse: true do
+       it 'works' do
+         create_clickhouse(:my_fact, value: 123)
+       end
+     end
+
+  For more info, see: https://github.com/matiascondem/rspec-clickhouse
+
+===============================================================================

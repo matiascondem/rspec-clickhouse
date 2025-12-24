@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+
+require 'rspec-clickhouse'
+
+RSpec::Clickhouse.configure do |config|
+  # Database Configuration
+  config.clickhouse_url = ENV.fetch('CLICKHOUSE_URL', 'http://localhost:8123')
+  config.clickhouse_username = ENV.fetch('CLICKHOUSE_USERNAME', 'default')
+  config.clickhouse_password = ENV.fetch('CLICKHOUSE_PASSWORD', 'password')
+
+  # Production database name
+  config.database_name = '<%= app_name %>'
+
+  # Test database prefix
+  config.test_database_prefix = '<%= app_name %>_test'
+
+  # Parallel test configuration (for 2 workers)
+  config.parallel_test_databases = ['', '2']
+
+  # Schema Management
+  config.schema_root = Rails.root.join('clickhouse')
+  config.schema_load_order = %w[functions tables views]
+  config.excluded_tables_on_drop = []
+
+  # Test Configuration
+  config.truncate_excluded_tables = []
+  config.auto_truncate_metadata = :clickhouse
+  # config.availability_check_table = 'your_main_table'
+
+  # Logging
+  config.logger = Rails.logger
+
+  # Factory defaults
+  config.factory_defaults = {
+    created_at: -> { Time.current }
+  }
+end

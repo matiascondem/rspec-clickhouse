@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+# Define your ClickHouse factories here
+# These work independently of FactoryBot and create data directly in ClickHouse
+
+# Example factory definition:
+# RSpec::Clickhouse.define_factory :my_fact, table: 'my_facts_table' do
+#   sequence(:id)
+#   name { "Name #{id}" }
+#   value { 100 }
+#   created_at { Time.current }
+#
+#   trait :special do
+#     value { 999 }
+#   end
+# end
+
+# Usage in specs:
+# create_clickhouse(:my_fact, name: 'Custom')
+# create_clickhouse(:my_fact, :special)
+# create_clickhouse_list(:my_fact, 100)
+
+# Example model mapping:
+# RSpec::Clickhouse.map_model MyModel, to: :my_table do |model|
+#   {
+#     id: model.id,
+#     name: model.name,
+#     value: model.value,
+#     created_at: model.created_at
+#   }
+# end
+
+# Usage:
+# model = create(:my_model)
+# sync_to_clickhouse(model)
