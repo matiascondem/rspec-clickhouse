@@ -1,5 +1,9 @@
 # rspec-clickhouse
 
+[![CI](https://github.com/matiascondem/rspec-clickhouse/actions/workflows/ci.yml/badge.svg)](https://github.com/matiascondem/rspec-clickhouse/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/rspec-clickhouse.svg)](https://badge.fury.io/rb/rspec-clickhouse)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Testing framework for ClickHouse in Rails/RSpec applications.
 
 ## Features

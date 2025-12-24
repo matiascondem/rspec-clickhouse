@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: ['2.7', '3.0', '3.1', '3.2']
+
+    services:
+      clickhouse:
+        image: clickhouse/clickhouse-server:latest
+        ports:
+          - 8123:8123
+        options: >-
+          --health-cmd "wget --spider -q localhost:8123/ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby ${{ matrix.ruby-version }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Run unit tests
+      run: bundle exec rspec spec/rspec/
+
+    - name: Run integration tests
+      run: bundle exec rspec spec/integration/
+      env:
+        CLICKHOUSE_URL: http://localhost:8123
+        CLICKHOUSE_USERNAME: default
+        CLICKHOUSE_PASSWORD: ''
+
+    - name: Run all tests
+      run: bundle exec rspec
+      env:
+        CLICKHOUSE_URL: http://localhost:8123
+        CLICKHOUSE_USERNAME: default
+        CLICKHOUSE_PASSWORD: ''
