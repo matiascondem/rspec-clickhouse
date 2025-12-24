@@ -14,6 +14,8 @@ require_relative 'clickhouse/factory'
 require_relative 'clickhouse/factory_registry'
 require_relative 'clickhouse/model_mapper'
 require_relative 'clickhouse/schema_manager'
+require_relative 'clickhouse/test_database_manager'
+require_relative 'clickhouse/test_helper'
 
 module RSpec
   module Clickhouse
