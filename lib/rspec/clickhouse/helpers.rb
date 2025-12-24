@@ -121,6 +121,28 @@ module RSpec
         factory = FactoryRegistry.find(factory_name)
         factory.build(*traits, **attributes)
       end
+
+      # Model mapper helper methods
+
+      # Sync an ActiveRecord model to ClickHouse
+      #
+      # @param model [ActiveRecord::Base] model instance to sync
+      # @example
+      #   user = User.create!(name: 'Alice')
+      #   sync_to_clickhouse(user)
+      def sync_to_clickhouse(model)
+        ModelMapper.sync(model)
+      end
+
+      # Bulk sync multiple ActiveRecord models to ClickHouse
+      #
+      # @param models [Array<ActiveRecord::Base>] array of model instances
+      # @example
+      #   users = User.where(active: true)
+      #   bulk_sync_to_clickhouse(users)
+      def bulk_sync_to_clickhouse(models)
+        ModelMapper.bulk_sync(models)
+      end
     end
   end
 end

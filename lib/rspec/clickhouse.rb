@@ -12,6 +12,7 @@ require_relative 'clickhouse/db'
 require_relative 'clickhouse/helpers'
 require_relative 'clickhouse/factory'
 require_relative 'clickhouse/factory_registry'
+require_relative 'clickhouse/model_mapper'
 
 module RSpec
   module Clickhouse
@@ -30,6 +31,24 @@ module RSpec
     #   end
     def self.define_factory(name, **options, &block)
       FactoryRegistry.define(name, **options, &block)
+    end
+
+    # Model mapper definition helper
+    #
+    # @param model_class [Class] ActiveRecord model class
+    # @param to [String] target ClickHouse table name
+    # @yield mapping block that receives model and returns attributes hash
+    # @example
+    #   RSpec::Clickhouse.map_model User, to: 'users' do |user|
+    #     {
+    #       id: user.id,
+    #       name: user.name,
+    #       email: user.email,
+    #       created_at: user.created_at
+    #     }
+    #   end
+    def self.map_model(model_class, to:, &block)
+      ModelMapper.define(model_class, to: to, &block)
     end
   end
 end
