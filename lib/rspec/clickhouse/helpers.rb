@@ -77,6 +77,50 @@ module RSpec
         end
       end
       module_function :quote_clickhouse_value
+
+      # Factory helper methods
+
+      # Create a ClickHouse record using a factory
+      #
+      # @param factory_name [Symbol] name of the factory
+      # @param traits [Array<Symbol>] optional traits to apply
+      # @param attributes [Hash] attribute overrides
+      # @return [OpenStruct] created record
+      # @example
+      #   user = create_clickhouse(:user)
+      #   admin = create_clickhouse(:user, :admin, name: 'Custom')
+      def create_clickhouse(factory_name, *traits, **attributes)
+        factory = FactoryRegistry.find(factory_name)
+        factory.create(*traits, **attributes)
+      end
+
+      # Create multiple ClickHouse records using a factory
+      #
+      # @param factory_name [Symbol] name of the factory
+      # @param count [Integer] number of records to create
+      # @param traits [Array<Symbol>] optional traits to apply
+      # @param attributes [Hash] attribute overrides
+      # @return [Array<OpenStruct>] created records
+      # @example
+      #   users = create_clickhouse_list(:user, 100)
+      #   admins = create_clickhouse_list(:user, 5, :admin)
+      def create_clickhouse_list(factory_name, count, *traits, **attributes)
+        factory = FactoryRegistry.find(factory_name)
+        factory.create_list(count, *traits, **attributes)
+      end
+
+      # Build a ClickHouse record using a factory (doesn't insert)
+      #
+      # @param factory_name [Symbol] name of the factory
+      # @param traits [Array<Symbol>] optional traits to apply
+      # @param attributes [Hash] attribute overrides
+      # @return [Hash] attribute hash
+      # @example
+      #   attrs = build_clickhouse(:user)
+      def build_clickhouse(factory_name, *traits, **attributes)
+        factory = FactoryRegistry.find(factory_name)
+        factory.build(*traits, **attributes)
+      end
     end
   end
 end
