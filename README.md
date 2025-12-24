@@ -184,7 +184,7 @@ bundle exec rspec
 
 ## Requirements
 
-- Ruby 2.7+
+- Ruby 3.1+
 - Rails 6.0+
 - RSpec 3.0+
 - ClickHouse 20.0+ (for integration tests and actual usage)
