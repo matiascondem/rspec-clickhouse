@@ -77,8 +77,9 @@ module RSpec
         end
 
         def admin_connection
-          # Connect to 'default' database for admin operations (creating/dropping databases)
-          connection_for_database('default')
+          # Connect to 'system' database for admin operations (creating/dropping databases)
+          # Using 'system' instead of 'default' to avoid permission issues
+          connection_for_database('system')
         end
 
         def log_info(message)
