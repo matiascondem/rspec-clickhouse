@@ -77,10 +77,8 @@ module RSpec
         end
 
         def admin_connection
-          # Use first test database for admin operations
-          config = RSpec::Clickhouse.configuration
-          db_name = config.all_test_database_names.first
-          connection_for_database(db_name)
+          # Connect to 'default' database for admin operations (creating/dropping databases)
+          connection_for_database('default')
         end
 
         def log_info(message)
