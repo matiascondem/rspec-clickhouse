@@ -5,29 +5,17 @@ module RSpec
     class Configuration
       # Connection settings
       attr_accessor :clickhouse_url
-      attr_accessor :clickhouse_username
-      attr_accessor :clickhouse_password
-      attr_accessor :database_name
-      attr_accessor :test_database_prefix
-      attr_accessor :http_post_proc
-      attr_accessor :logger
+      attr_accessor :clickhouse_username, :clickhouse_password, :database_name, :test_database_prefix, :http_post_proc,
+                    :logger, :schema_load_order, :excluded_tables_on_drop, :variable_substitutions, :test_stub_tables_dir, :truncate_excluded_tables, :auto_truncate_metadata, :availability_check_table, :sequence_start
 
       # Schema management settings
       attr_accessor :schema_root
-      attr_accessor :schema_load_order
-      attr_accessor :excluded_tables_on_drop
-      attr_accessor :variable_substitutions
 
       # Test infrastructure settings
       attr_accessor :parallel_test_databases
-      attr_accessor :test_stub_tables_dir
-      attr_accessor :truncate_excluded_tables
-      attr_accessor :auto_truncate_metadata
-      attr_accessor :availability_check_table
 
       # Factory system settings
       attr_accessor :factory_defaults
-      attr_accessor :sequence_start
 
       def initialize
         # Connection defaults
@@ -37,7 +25,7 @@ module RSpec
         @database_name = nil # Must be set by app
         @test_database_prefix = nil
         @http_post_proc = nil
-        @logger = defined?(Rails) ? Rails.logger : Logger.new($stdout)
+        @logger = defined?(::Rails) && ::Rails.respond_to?(:logger) ? ::Rails.logger : Logger.new($stdout)
 
         # Schema defaults
         @schema_root = nil # Must be set by app

@@ -71,7 +71,10 @@ module RSpec
             variables: { mutations_sync: 1 }
           )
           temp_config.logger = config.logger
-          temp_config.http_post_proc = config.http_post_proc if config.http_post_proc
+
+          # Use the gem's http_post_proc if configured, otherwise try the global ClickHouse::Client config
+          http_proc = config.http_post_proc || ClickHouse::Client.configuration.http_post_proc
+          temp_config.http_post_proc = http_proc if http_proc
 
           Connection.new(:main, temp_config)
         end
